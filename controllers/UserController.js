@@ -21,5 +21,28 @@ class UsersController {
       }
     });
   }
+
+  signIn(req, res) {
+    User.findOne({ email: req.body.email }, (err, user) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ auth: false, msg: "An error occured" });
+      } else {
+        if (user) {
+          const valid = bcrypt.compareSync(req.body.password, user.password);
+          if (valid) {
+            const token = jwt.sign({ id: user.id }, process.env.JWT_TOKEN, {
+              expiresIn: 86400,
+            });
+            res.status(200).json({ auth: true, token: token });
+          } else {
+            res.status(401).json({ msg: "invalid credentials" });
+          }
+        } else {
+          res.status(401).json({ msg: "invalid credentials" });
+        }
+      }
+    });
+  }
 }
 module.exports = UsersController;
