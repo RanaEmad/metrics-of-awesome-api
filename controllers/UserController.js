@@ -34,12 +34,12 @@ class UsersController {
             const token = jwt.sign({ id: user.id }, process.env.JWT_TOKEN, {
               expiresIn: 86400,
             });
-            res.status(200).json({ auth: true, token: token });
+            return res.status(200).json({ auth: true, token: token });
           } else {
-            res.status(401).json({ msg: "invalid credentials" });
+            return res.status(401).json({ msg: "invalid credentials" });
           }
         } else {
-          res.status(401).json({ msg: "invalid credentials" });
+          return res.status(401).json({ msg: "invalid credentials" });
         }
       }
     });
