@@ -5,5 +5,6 @@ UsersController = new UsersController();
 
 router.post("/signup", UsersController.signUp);
 router.post("/signin", UsersController.signIn);
+router.get("/dashboard", UsersController.dashboard);
 
 module.exports = router;
